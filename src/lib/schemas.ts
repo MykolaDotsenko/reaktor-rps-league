@@ -20,4 +20,17 @@ export const HistoryPageSchema = z.object({
   cursor: z.string().trim().min(1).nullable().optional(),
 });
 
+export const MatchSchema = z.object({
+  id: z.string().trim().min(1),
+  playedAtUtc: z.string().min(1),
+  player1: z.string().trim().min(1),
+  player2: z.string().trim().min(1),
+  move1: MoveSchema,
+  move2: MoveSchema,
+  winner: z.string().trim().min(1).nullable(),
+  isTie: z.boolean(),
+});
+
+export const MatchesSnapshotSchema = z.array(MatchSchema);
+
 export type RawGameResult = z.infer<typeof GameResultSchema>;
