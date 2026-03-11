@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync": "tsx scripts/sync.ts",
+    "answers": "tsx scripts/answers.ts"
   },
   "dependencies": {
     "@next/env": "^16.1.6",
