@@ -40,9 +40,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </nav>
           </div>
         </header>
-
         <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
-
         <footer className="mt-16 border-t border-gray-800">
           <div className="mx-auto max-w-5xl px-4 py-4 text-center text-xs text-gray-600">
             All times in UTC · Data from Bad API · Reaktor 2026 Homework
