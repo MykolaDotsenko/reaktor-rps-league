@@ -124,4 +124,4 @@ Used **Claude** and **ChatGPT** throughout the project as thinking partners:
 - **Architecture decisions:** All three tools helped explore options; final decisions were mine based on homework constraints and deadline.
 - **Code review:** Claude found the missing singleton cache in the data loader and the self-play inconsistency between normalization and query layers.
 
-All domain logic, validation rules, query implementations, and architectural choices were verified and understood by me. I can explain every line of code in an interview.
+All domain logic, validation rules, query implementations, and architectural choices were verified and understood by me. 
