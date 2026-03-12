@@ -7,6 +7,7 @@ export interface SyncStats {
   valid: number;
   invalid: number;
   duplicates: number;
+  selfPlays: number;
   reasons: Record<string, number>;
 }
 
@@ -17,13 +18,13 @@ function classifyInvalidReason(raw: unknown): string {
   const firstIssue = parsed.error.issues[0];
   if (!firstIssue) return 'UNKNOWN';
 
-  const path = firstIssue.path.join('.');
+  const issuePath = firstIssue.path.join('.');
 
-  if (path.includes('time')) return 'BAD_TIMESTAMP';
-  if (path.includes('played')) return 'INVALID_MOVE';
-  if (path.includes('name')) return 'MISSING_PLAYER';
-  if (path.includes('gameId')) return 'MISSING_GAME_ID';
-  if (path.includes('type')) return 'BAD_TYPE';
+  if (issuePath.includes('time')) return 'BAD_TIMESTAMP';
+  if (issuePath.includes('played')) return 'INVALID_MOVE';
+  if (issuePath.includes('name')) return 'MISSING_PLAYER';
+  if (issuePath.includes('gameId')) return 'MISSING_GAME_ID';
+  if (issuePath.includes('type')) return 'BAD_TYPE';
 
   return 'MALFORMED_RECORD';
 }
@@ -33,6 +34,26 @@ export function normalizeRecord(raw: unknown): Match | null {
   if (!parsed.success) return null;
 
   const r = parsed.data;
+  const isSelfPlay = r.playerA.name === r.playerB.name;
+
+  // Self-play: force tie regardless of moves.
+  // "Mateo Müller" ROCK vs "Mateo Müller" SCISSORS → tie, no winner.
+  // This prevents:
+  //   - leaderboard counting self-play as a real win
+  //   - getPlayerOutcome throwing on ambiguous same-name non-tie
+  if (isSelfPlay) {
+    return {
+      id: r.gameId,
+      playedAtUtc: new Date(r.time).toISOString(),
+      player1: r.playerA.name,
+      player2: r.playerB.name,
+      move1: r.playerA.played,
+      move2: r.playerB.played,
+      winner: null,
+      isTie: true,
+    };
+  }
+
   const { winner, isTie } = resolveWinner(
     r.playerA.name,
     r.playerA.played,
@@ -61,6 +82,7 @@ export function normalizeAll(rawRecords: unknown[]): {
     valid: 0,
     invalid: 0,
     duplicates: 0,
+    selfPlays: 0,
     reasons: {},
   };
 
@@ -83,6 +105,7 @@ export function normalizeAll(rawRecords: unknown[]): {
     }
 
     seen.add(match.id);
+    if (match.player1 === match.player2) stats.selfPlays++;
     matches.push(match);
     stats.valid++;
   }
