@@ -10,7 +10,7 @@ const PlayerSchema = z.object({
 export const GameResultSchema = z.object({
   type: z.literal('GAME_RESULT'),
   gameId: z.string().trim().min(1),
-  time: z.number().int().nonnegative(),
+  time: z.number().int().positive(),
   playerA: PlayerSchema,
   playerB: PlayerSchema,
 });
