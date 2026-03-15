@@ -44,3 +44,4 @@ next-env.d.ts
 # data artifacts
 data/normalize-stats.json
 !data/.gitkeep
+.vercel

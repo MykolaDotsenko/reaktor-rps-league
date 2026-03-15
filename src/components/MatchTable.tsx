@@ -1,7 +1,7 @@
 import type { Match } from '@/lib/types';
 
 const MOVE_EMOJI: Record<string, string> = {
-  ROCK: '🪨',
+  ROCK: '✊',
   PAPER: '📄',
   SCISSORS: '✂️',
 };
