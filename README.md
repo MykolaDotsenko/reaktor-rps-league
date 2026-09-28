@@ -2,11 +2,22 @@
 
 [Live demo](https://reaktor-rps-zeta.vercel.app/)
 
-A web application that consumes the Reaktor Rock-Paper-Scissors legacy API, normalizes the data, and presents match results and leaderboards.
+A Next.js case study for turning the Reaktor Rock-Paper-Scissors legacy API into a stable league view with normalized match history, leaderboards, and a single query layer.
+
+The project is strongest as an integration and data-boundary example: raw provider data is validated with Zod, converted into a checked snapshot, queried through pure functions, and served without exposing the server-only API token to the browser.
+
+## What this demonstrates
+
+- legacy API normalization into an application-owned data shape
+- Zod validation at the provider boundary
+- server-only bearer token handling
+- a normalized snapshot for deterministic UI and answer generation
+- one shared query layer for pages and scripts
+- clear separation between sync scripts, query logic, and the Next.js presentation layer
 
 ## Tech Stack
 
-- **Next.js 15** (App Router) — full-stack React framework
+- **Next.js 16.1.6** (App Router) — full-stack React framework
 - **TypeScript** (strict mode) — type safety
 - **Zod** — runtime validation of untrusted API data
 - **Tailwind CSS** — utility-first styling
