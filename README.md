@@ -1,6 +1,6 @@
-https://reaktor-rps-zeta.vercel.app/
-
 # RPS League
+
+[Live demo](https://reaktor-rps-zeta.vercel.app/)
 
 A web application that consumes the Reaktor Rock-Paper-Scissors legacy API, normalizes the data, and presents match results and leaderboards.
 
